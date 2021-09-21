@@ -41,15 +41,14 @@ jobs:
       - name: Trufflehog Actions Scan
         uses: edplato/trufflehog-actions-scan@master
 
-      - name: Spot Bugs Scan 
-        run: wget https://github.com/spotbugs/spotbugs/releases/download/4.3.0/spotbugs-4.3.0.tgz
-
-      - name: Unzip and install
-        run: gunzip -c spotbugs-4.3.0.tgz | tar xvf - && ls -l && spotbugs/bin/spotbugs && spotbugs/lib/spotbugs.jar
-
       - name: Inspec Tools Action
         uses: mitre/inspec_tools_action@v1.0
         with:
           command: compliance
           resultsfile: inspec_results.json
           thresholdfile: threshold.yaml
+      - name: nodejsscan scan
+        id: njsscan
+        uses: ajinabraham/njsscan-action@master
+        with:
+         args: '.'
