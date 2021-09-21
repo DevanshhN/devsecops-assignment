@@ -16,13 +16,14 @@ jobs:
         npm install
         npm run-script build
 
-  
-    - name: Checkout
-      run : |
-        ssh -i ${{ secrets.SSH_KEY }} ${{ secrets.USER_NAME }}@${{ secrets.HOST }}
-        git clone https://github.com/DevanshhN/devsecops-assignment
-        npm install 
-        npm run-script build
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_KEY }}
+        port: 22
+        source: "*"
+        target: "/opt"
 
 
   securitytest:
