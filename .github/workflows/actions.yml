@@ -47,12 +47,6 @@ jobs:
       - name: Trufflehog Actions Scan
         uses: edplato/trufflehog-actions-scan@master
 
-      - name: Inspec Tools Action
-        uses: mitre/inspec_tools_action@v1.0
-        with:
-          command: compliance
-          resultsfile: inspec_results.json
-          thresholdfile: threshold.yaml
       
       - name: nodejsscan scan
         id: njsscan
