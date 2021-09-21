@@ -23,7 +23,7 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         port: 22
         source: "*"
-        target: "/opt"
+        target: "/home/ubuntu/"
 
 
   securitytest:
