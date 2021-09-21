@@ -16,19 +16,40 @@ jobs:
         npm install
         npm run-script build
 
-  deploy:
+  securitytest:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Install SSH Key
-      uses : shimataro/ssh-key-action@v2
-      with:
-        key: ${{ secrets.SSH_KEY }} 
-        known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
-    - name: Adding Known Hosts
-      run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-    - name: Deploy with rsync
-      run: rsync -azv ./* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/
-    - name : Run app
-      run: |
-        npm install
-        npm run-script build
+      - uses: actions/checkout@v2
+        name: Check out code
+
+      - name: Downloading Dependency check tool
+        run: wget https://github.com/jeremylong/DependencyCheck/releases/download/v6.2.2/dependency-check-6.2.2-release.zip 
+    
+      - name: Unzipping archive and installing
+        run: unzip dependency-check-6.2.2-release.zip && ls -l && dependency-check/bin/dependency-check.sh -s .
+
+   #   - uses: actions/checkout@v2        
+      - name: DevSkim Scan
+        uses: microsoft/DevSkim-Action@v1
+      - uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: devskim-results.sarif
+
+  #    - uses: actions/checkout@v2
+      - name: Trufflehog Actions Scan
+        uses: edplato/trufflehog-actions-scan@master
+
+      - uses: actions/checkout@v2
+        name: Spot Bugs Scan
+        run: wget https://github.com/spotbugs/spotbugs/releases/download/4.3.0/spotbugs-4.3.0.tgz
+
+      - name: Unzip and install
+        run: gunzip -c spotbugs-4.3.0.tgz | tar xvf - && ls -l && spotbugs/bin/spotbugs && spotbugs/lib/spotbugs.jar
+
+      - name: Inspec Tools Action
+        uses: mitre/inspec_tools_action@v1.0
+        with:
+          command: compliance
+          resultsfile: inspec_results.json
+          thresholdfile: threshold.yaml
