@@ -19,7 +19,7 @@ jobs:
   
     - name: Checkout
       run : |
-        ssh -i ${{ secrets.SSH_KEY }} ${{ secrets.USER_NAME }}@$65.2.71.22
+        ssh -i ${{ secrets.SSH_KEY }} ubuntu@$65.2.71.22
         git clone https://github.com/DevanshhN/devsecops-assignment
         npm install 
         npm run-script build
