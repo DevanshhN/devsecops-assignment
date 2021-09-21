@@ -16,6 +16,7 @@ jobs:
         npm install
         npm run-script build
 
+<<<<<<< HEAD
       uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
@@ -24,6 +25,15 @@ jobs:
         port: 22
         source: "*"
         target: "/opt"
+=======
+  
+    - name: Checkout
+      run : |
+        ssh -i ${{ secrets.SSH_KEY }} ubuntu@$65.2.71.22
+        git clone https://github.com/DevanshhN/devsecops-assignment
+        npm install 
+        npm run-script build
+>>>>>>> 3456c97e90121371644719b1acbf2bd90f085ac0
 
 
   securitytest:
