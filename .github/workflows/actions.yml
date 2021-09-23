@@ -35,10 +35,10 @@ jobs:
     
       - name: Unzipping archive and installing
         run: unzip dependency-check-6.2.2-release.zip && ls -l && dependency-check/bin/dependency-check.sh -s .
-      - name: Upload njsscan report
+      - name: Upload Dependancy Check report
         uses : actions/upload-artifact@v2
         with :
-          path : /results/nodeJSScan.txt
+          path : dependencyCheck.txt
 
    #   - uses: actions/checkout@v2        
       - name: DevSkim Scan
@@ -46,7 +46,7 @@ jobs:
       - name: Upload njsscan report
         uses : actions/upload-artifact@v2
         with:
-          path : /results/Devskim.txt
+          path : Devskim.txt
 
   #    - uses: actions/checkout@v2
       - name: Trufflehog Actions Scan
