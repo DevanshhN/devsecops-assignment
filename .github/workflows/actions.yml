@@ -34,11 +34,7 @@ jobs:
         run: wget https://github.com/jeremylong/DependencyCheck/releases/download/v6.2.2/dependency-check-6.2.2-release.zip 
     
       - name: Unzipping archive and installing
-        run: unzip dependency-check-6.2.2-release.zip && ls -l && dependency-check/bin/dependency-check.sh -s .  a
-      - name: Upload Dependancy Check report
-        uses : actions/upload-artifact@v2
-        with :
-          path : dependencyCheck.txt
+        run: unzip dependency-check-6.2.2-release.zip && ls -l && dependency-check/bin/dependency-check.sh -s .  a > reports
       - name: Upload Test results
         uses: actions/upload-artifact@master
         with:
@@ -73,6 +69,5 @@ jobs:
 
       - name: Install Inspec
         run : |
-          sudo apt-get -y install ruby ruby-dev gcc g++ make
-          sudo gem install inspec
+          curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
           sudo inspec exec test.rb
