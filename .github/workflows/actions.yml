@@ -34,7 +34,7 @@ jobs:
         run: wget https://github.com/jeremylong/DependencyCheck/releases/download/v6.2.2/dependency-check-6.2.2-release.zip 
     
       - name: Unzipping archive and installing
-        run: unzip dependency-check-6.2.2-release.zip && ls -l && dependency-check/bin/dependency-check.sh -s .
+        run: unzip dependency-check-6.2.2-release.zip && ls -l && dependency-check/bin/dependency-check.sh -s .  a
       - name: Upload Dependancy Check report
         uses : actions/upload-artifact@v2
         with :
@@ -43,12 +43,10 @@ jobs:
    #   - uses: actions/checkout@v2        
       - name: DevSkim Scan
         uses: microsoft/DevSkim-Action@v1
-      - name: Upload DevSkim report
-        uses : actions/upload-artifact@v2
+      - uses: github/codeql-action/upload-sarif@v1
         with:
-          path : Devskim.txt
+          sarif_file: devskim-results.sarif
 
-  #    - uses: actions/checkout@v2
       - name: Trufflehog Actions Scan
         uses: edplato/trufflehog-actions-scan@master
 
