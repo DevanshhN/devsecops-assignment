@@ -37,14 +37,16 @@ jobs:
         run: unzip dependency-check-6.2.2-release.zip && ls -l && dependency-check/bin/dependency-check.sh -s .
       - name: Upload njsscan report
         uses : actions/upload-artifact@v2
-        path : /results/nodeJSScan.txt
+        with :
+          path : /results/nodeJSScan.txt
 
    #   - uses: actions/checkout@v2        
       - name: DevSkim Scan
         uses: microsoft/DevSkim-Action@v1
       - name: Upload njsscan report
         uses : actions/upload-artifact@v2
-        path : /results/Devskim.txt
+        with:
+          path : /results/Devskim.txt
 
   #    - uses: actions/checkout@v2
       - name: Trufflehog Actions Scan
@@ -63,7 +65,8 @@ jobs:
       
       - name: Upload njsscan report
         uses : actions/upload-artifact@v2
-        path : /results/nodeJSScan.txt
+        with :
+          path : /results/nodeJSScan.txt
 
       - name: Inspec Tools Action
         uses: mitre/inspec_tools_action@v1.0
