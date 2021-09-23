@@ -74,5 +74,5 @@ jobs:
       - name: Install Inspec
         run : |
           sudo apt-get -y install ruby ruby-dev gcc g++ make
-          gem install inspec
-          inspec exec test.rb
+          sudo gem install inspec
+          sudo inspec exec test.rb
