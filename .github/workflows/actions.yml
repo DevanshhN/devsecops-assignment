@@ -66,14 +66,8 @@ jobs:
       - name: Upload njsscan report
         uses : actions/upload-artifact@v2
         with :
-          path : /results/nodeJSScan.txt
-
-      - name: Checkout Code for Threshold
-        uses: actions/checkout@v2
-      - name: Download Inspec Results
-        uses: actions/download-artifact@v2
-        with:
-          name: inspec_results
+          path : /results/nodeJSScan.txt 
+          
       - name: Inspec Tools Check Compliance
         uses: mitre/inspec_tools_action@main
         with:
