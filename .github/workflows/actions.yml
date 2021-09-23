@@ -28,18 +28,28 @@ jobs:
     steps:
       - name: Check out code  
         uses: actions/checkout@v2
+
+      - name: Install Inspec
+        run : |
+          curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
+          sudo inspec exec test.rb --chef-license accept-silent
         
 
-      - name: Downloading Dependency check tool
-        run: wget https://github.com/jeremylong/DependencyCheck/releases/download/v6.2.2/dependency-check-6.2.2-release.zip 
-    
-      - name: Unzipping archive and installing
-        run: unzip dependency-check-6.2.2-release.zip && ls -l && dependency-check/bin/dependency-check.sh -s .  a > reports
+      - name: Depcheck
+        uses: dependency-check/Dependency-Check_Action@main
+        id: Depcheck
+        with:
+          project: 'test'
+          path: '.'
+          format: 'HTML'    
+          args: >
+            --failOnCVSS 7
+            --enableRetired
       - name: Upload Test results
         uses: actions/upload-artifact@master
         with:
            name: Depcheck report
-           path: reports
+           path: ${{github.workspace}}/reports
 
    #   - uses: actions/checkout@v2        
       - name: DevSkim Scan
@@ -67,7 +77,3 @@ jobs:
         with :
           path : results.sarif
 
-      - name: Install Inspec
-        run : |
-          curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
-          sudo inspec exec test.rb
