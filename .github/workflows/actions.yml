@@ -44,7 +44,11 @@ jobs:
       - name: Trufflehog Actions Scan
         uses: edplato/trufflehog-actions-scan@master
 
-      
+      - name: ZAP Scan
+        uses: zaproxy/action-baseline@v0.3.0
+        with:
+          target: '65.2.71.22:3000'
+
       - name: nodejsscan scan
         id: njsscan
         uses: ajinabraham/njsscan-action@master
