@@ -68,10 +68,17 @@ jobs:
         with :
           path : /results/nodeJSScan.txt
 
-      - name: Run Inspec
-        run: inspec exec test.rb -t ssh://${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} --reporter=json:/inspec-output/inspec_results.json
-      - name: Upload Inspec Results
-        uses: actions/upload-artifact@v2
+      #- name: Run Inspec
+      #  run: inspec exec test.rb -t ssh://${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} --reporter=json:/inspec-output/inspec_results.json
+      #- name: Upload Inspec Results
+      #  uses: actions/upload-artifact@v2
+      #  with:
+      #    name: inspec_results
+      #    path: /inspec-output/inspec_results.json
+
+      - name: Inspec Tools Check Compliance
+        uses: mitre/inspec_tools_action@main
         with:
-          name: inspec_results
-          path: /inspec-output/inspec_results.json
+          command: compliance
+          resultfile: inspec_results.json
+          thresholdfile: threshold.yaml
