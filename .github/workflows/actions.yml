@@ -45,7 +45,7 @@ jobs:
         uses: edplato/trufflehog-actions-scan@master
 
       - name: ZAP Scan
-        uses: zaproxy/action-baseline@v0.3.0
+        uses: zaproxy/action-baseline@v0.5.0
         with:
           target: '65.2.71.22:3000'
 
