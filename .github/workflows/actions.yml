@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@master
         with:
            name: Depcheck report
-           path: ${{github.workspace}}/reports
+           path: reports
 
    #   - uses: actions/checkout@v2        
       - name: DevSkim Scan
@@ -71,23 +71,8 @@ jobs:
         with :
           path : results.sarif
 
-      - name: Run Inspec
-        run: inspec exec test.rb -t ssh://${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} --reporter=json:/inspec-output/inspec_results.json
-      - name: Upload Inspec Results
-        uses: actions/upload-artifact@v2
-        with:
-          name: inspec_results
-          path: /inspec-output/inspec_results.json
-
-      - name: Checkout Code for Threshold
-        uses: actions/checkout@v2
-      - name: Download Inspec Results
-        uses: actions/download-artifact@v2
-        with:
-          name: inspec_results
-      - name: Inspec Tools Check Compliance
-        uses: mitre/inspec_tools_action@main
-        with:
-          command: compliance
-          resultfile: inspec_results.json
-          thresholdfile: threshold.yaml
+      - name: Install Inspec
+        run : |
+          apt-get -y install ruby ruby-dev gcc g++ make
+          gem install inspec
+          inspec exec test.rb
