@@ -27,13 +27,7 @@ jobs:
 
     steps:
       - name: Check out code  
-        uses: actions/checkout@v2
-
-      - name: Install Inspec
-        run : |
-          curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
-          sudo inspec exec test.rb --chef-license accept-silent
-        
+        uses: actions/checkout@v2        
 
       - name: Depcheck
         uses: dependency-check/Dependency-Check_Action@main
